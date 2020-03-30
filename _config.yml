@@ -1,10 +1,10 @@
 title: Sara Pesavento
-subtitle: A Jekyll Theme Built for Developers
+subtitle: Rdvark Blog
 description: >- # this means to ignore newlines until "baseurl:"
   devlopr-jekyll is a Jekyll Theme Built For Developers
 
-url: "" # the base hostname & protocol for your site, e.g. https://example.github.io
-baseurl: "" # the subpath of your site, e.g. /blog
+url: "https://github.com/spesavento" # the base hostname & protocol for your site, e.g. https://example.github.io
+#baseurl: "" # the subpath of your site, e.g. /blog
 
 urls:
     - text: About Me
@@ -29,7 +29,21 @@ author: Sara Pesavento
 author_bio: Programming knowledge includes R, Python, SQL, Tableau, SAS and other data analysis tools.
 author_email: "sarapesavento@gmail.com"
 author_location: Los Angeles
-author_website_url: "https://www.linkedin.com/in/sara-pesavento-95941811a/"
+# author_website_url: "https://www.linkedin.com/in/sara-pesavento-95941811a/"
+
+author_education_details:
+              - college_logo: uci.png
+                college_name: University of California, Irvine (2020-present)
+                college_url: https://www.ics.uci.edu
+                college_degree: M.S. Computer Science
+                description: GPA NA/4.00
+                visibility: true
+              - college_logo: UCLA.png
+                college_name: University of California, Los Angeles
+                college_url: http://statistics.ucla.edu
+                college_degree: B.S. Statistics
+                description: GPA 3.82/4.00
+                visibility: true
 
 author_work_experiences:
             - company_name: Google
@@ -45,14 +59,6 @@ author_work_experiences:
               description: Worked on various Azure Cloud Products
               visibility: true
 
-author_education_details:
-              - college_logo: mit.png
-                college_name: MIT
-                college_url: https://mit.org
-                college_degree: CS Engineer
-                description: Bachelor of Technology
-                visibility: true
-
 author_project_details:
               - project_thumbnail: gamershub.png
                 project_title: Gamers Hub
@@ -66,16 +72,16 @@ author_project_details:
                 visibility: true
 
 # social links
-twitter_username: johndoe
-github_username:  johndoe
-facebook_username: johndoe
-linkedin_username: johndoe
-behance_username: johndoe
-instagram_username: johndoe
-medium_username: johndoe
-telegram_username: johndoe
-dribbble_username: johndoe
-flickr_username: johndoe
+# twitter_username: johndoe
+github_username:  spesavento
+facebook_username: sara.briana.9
+linkedin_username: sara-pesavento-95941811a
+# behance_username: johndoe
+instagram_username: sarapez4
+# medium_username: johndoe
+# telegram_username: johndoe
+# dribbble_username: johndoe
+# flickr_username: johndoe
 
 #for comments using disqus
 disqus_shortname: sujay-kundu
