@@ -48,35 +48,35 @@ author_education_details:
                 visibility: true
 
 author_work_experiences:
-            - company_name: Warner Bros. Entertainment<br>March 2019 - Present · <i>1 yr 1 mo</i>
+            - company_name: Warner Bros. Entertainment<br>Mar 2019 - Present · <i>1 yr 1 mo</i>
               company_logo: wb.png
               # company_url: https://google.com
               designation: Sr. Analyst
-              description: Worked on various Google Products
+              description: <ul> <li>Determine forecasting methods, predictor variables and statistical model validation techniques to forecast sales for the supply chain</li> <li>Present data model analysis and justification with business leaders</li> <li>Maintain SQL/SAS/R data sources from internal and external databases</li> <li>Provide cross functional statistical analyses and data mining</li> <li>Data visualization in Tableau</li> </ul>
               visibility: true
-            - company_name: Welch Consulting 
+            - company_name: Welch Consulting<br>Jul 2018 - Mar 2019 · <i>9 mo</i>
               company_logo: welch.png
               # company_url: https://microsoft.com
               designation: Quantitative Data Analyst
-              description: Worked on various Azure Cloud Products
+              description: <ul><li>Data mining and analysis of large economic datasets using STATA programming</li><li>Performed programming and statistical analysis for client reports</li></ul>
               visibility: true
-            - company_name: Twenty20
+            - company_name: Twenty20<br>Apr 2018 - Jun 2018 · <i>3 mo</i>
               company_logo: twenty.png
               # company_url: https://microsoft.com
               designation: Data Analyst Intern
-              description: Worked on various Azure Cloud Products
+              description: <ul><li>Statistically analyzed growth frameworks and key performance drivers to increase the number of active users for this venture-funded startup</li><li>Tools used included RJ, Amplitude, Excel, Batch, UX design (Balsamiq), A/B testing</li></ul>
               visibility: true
-            - company_name: UCLA Brain Mapping Center
+            - company_name: UCLA Brain Mapping Center<br>Sep 2017 - Jun 2018 · <i>10 mo</i>
               company_logo: brain.png
               # company_url: https://microsoft.com
               designation: Data Scientist
-              description: Worked on various Azure Cloud Products
+              description: <ul><li>Developed and tested software in R for analyzing brain imaging data</li><li>Performed statistical analysis on MRI data from Brainsuite using Bitbucket (Git), and R </li><li>Explored machine learning tools (Tensorflow) in R for further analyzing brain imaging data</li></ul>
               visibility: true
-            - company_name: UCLA Aftercare Research Program
+            - company_name: UCLA Aftercare Research Program<br>Jun 2017 - Sep 2017 · <i>4 mo</i>
               company_logo: semel.png
               # company_url: https://microsoft.com
               designation: Data Analyst
-              description: Worked on various Azure Cloud Products
+              description: <ul><li>Performed data entry, quality checks and control, and statistical analysis of psychiatric treatment data using SPSS and Excel</li></ul>
               visibility: true
 
 author_project_details:
