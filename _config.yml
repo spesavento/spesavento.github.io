@@ -54,10 +54,28 @@ author_work_experiences:
               designation: Sr. Analyst
               description: Worked on various Google Products
               visibility: true
-            - company_name: Microsoft
+            - company_name: Welch Consulting 
               company_logo: welch.png
               # company_url: https://microsoft.com
               designation: Quantitative Data Analyst
+              description: Worked on various Azure Cloud Products
+              visibility: true
+            - company_name: Twenty20
+              company_logo: twenty.png
+              # company_url: https://microsoft.com
+              designation: Data Analyst Intern
+              description: Worked on various Azure Cloud Products
+              visibility: true
+            - company_name: UCLA Brain Mapping Center
+              company_logo: brain.png
+              # company_url: https://microsoft.com
+              designation: Data Scientist
+              description: Worked on various Azure Cloud Products
+              visibility: true
+            - company_name: UCLA Aftercare Research Program
+              company_logo: semel.png
+              # company_url: https://microsoft.com
+              designation: Data Analyst
               description: Worked on various Azure Cloud Products
               visibility: true
 
