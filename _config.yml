@@ -48,16 +48,16 @@ author_education_details:
                 visibility: true
 
 author_work_experiences:
-            - company_name: Google
-              company_logo: google.png
-              company_url: https://google.com
-              designation: Software Engineer
+            - company_name: Warner Bros. Entertainment<br>March 2019 - Present · <i>1 yr 1 mo</i>
+              company_logo: wb.png
+              # company_url: https://google.com
+              designation: Sr. Analyst
               description: Worked on various Google Products
               visibility: true
             - company_name: Microsoft
-              company_logo: microsoft.png
-              company_url: https://microsoft.com
-              designation: Azure Developer
+              company_logo: welch.png
+              # company_url: https://microsoft.com
+              designation: Quantitative Data Analyst
               description: Worked on various Azure Cloud Products
               visibility: true
 
