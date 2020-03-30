@@ -7,6 +7,8 @@ url: "https://spesavento.github.io/" # the base hostname & protocol for your sit
 # baseurl: "/tree/master/assets/img" # the subpath of your site, e.g. /blog
 
 urls:
+    # - text: Sara Pesavento
+      # url: /about 
     - text: About Me
       url: /about
     - text: Blog
@@ -33,14 +35,14 @@ author_location: Los Angeles
 
 author_education_details:
               - college_logo: uci.png
-                college_name: University of California, Irvine (2020-present)
-                college_url: https://www.ics.uci.edu
+                college_name: University of California, Irvine <br>2020-present
+                # college_url: https://www.ics.uci.edu
                 college_degree: M.S. Computer Science
                 description: GPA NA/4.00
                 visibility: true
               - college_logo: ucla.png
-                college_name: University of California, Los Angeles
-                college_url: http://statistics.ucla.edu
+                college_name: University of California, Los Angeles <br>2014-2018
+                # college_url: http://statistics.ucla.edu
                 college_degree: B.S. Statistics
                 description: GPA 3.82/4.00
                 visibility: true
