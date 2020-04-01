@@ -1,12 +1,48 @@
 ---
 layout: post
-title: How to deploy devlopr-jekyll Blog using Github Pages and Travis
-author: Sujay Kundu
-date: '2019-05-21 14:35:23 +0530'
-category: guides
-summary: Deployment Guide for devlopr-jekyll blog using Github Pages and Travis CI
-thumbnail: deploy-using-github-pages-and-travis.png
+title: Introduction to Tensorflow (pt 1/4)
+author: Sara Pesavento
+date: '2020-03-31 14:35:23 +0530'
+category: Machine Learning
+summary: Introduction to Machine Learning
+thumbnail: ML.png
 ---
+
+*Material follows a Udacity Tensorflow course.*
+
+###### **<u>Artificial Intelligence</u>**<br>
+A field of computer science that aims to make computers achieve human-style intelligence. There are many approaches to reaching this goal, including machine learning and deep learning.
+
+- **Machine Learning** <br>
+A set of related techniques in which computers are trained to perform a particular task rather than by explicitly programming them.
+- **Neural Network** <br>
+A construct in Machine Learning inspired by the network of neurons (nerve cells) in the biological brain. Neural networks are a fundamental part of deep learning, and will be covered in this course.
+- **Deep Learning** <br>
+A subfield of machine learning that uses multi-layered neural networks. Often, “machine learning” and “deep learning” are used interchangeably.
+
+The three main branches of machine learning are:
+
+- **Supervised Learning** <br>
+Using a labeled training dataset to train the computer to make predictions.
+
+![deploy using travis](/assets/img/posts/supervised.png){:class="img-fluid"}{: height="350px" width="350px"}
+
+- **Unsupervised Learning** <br>
+The information used to train is neither classified nor labeled.
+
+![deploy using travis](/assets/img/posts/unsupervised.png){:class="img-fluid"}{: height="350px" width="350px"}
+
+- **Reinforcement Learning** <br>
+An interactive learning method that optimizes a reward. 
+
+![deploy using travis](/assets/img/posts/reinforcement.png){:class="img-fluid"}{: height="350px" width="350px"}
+
+![deploy using travis](/assets/img/posts/ml_chart.png){:class="img-fluid"}
+> <div style="text-align: center"> A good visual of the machine learning branches. </div>
+
+
+
+
 
 This guide assumes that you already have created your blog and tested locally. If not please follow this tutorial : [Create a Blog using devlopr jekyll](https://devlopr.netlify.com/guides/2017/11/19/build-a-blog-using-devlopr-jekyll). Then come back and proceed with the deployment process.
 
