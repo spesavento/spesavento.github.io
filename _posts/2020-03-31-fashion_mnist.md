@@ -13,237 +13,398 @@ thumbnail: mnist_cover.png
 In this lesson, I will build a model to identify pieces of clothing. The Fashion MNIST dataset contains 70,000 images of clothing, each of which are 28 x 28 pixels and belong to one of the 10 clothing groups listed below.
 
 
-Solarized dark             |  Solarized Ocean
+![](/assets/img/posts/mnist_samples.png){:height="450px" width = "450px"} |  **<u>Label</u>** &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; **<u>Item</u>** <br>&nbsp;**<span style="color:red">0</span>** &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; **<span style="color:red">T-shirt/top</span>**<br>&nbsp;1 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Trouser<br>&nbsp;2 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Pullover<br>&nbsp;3 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Dress<br>&nbsp;4 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Coat<br>&nbsp;**<span style="color:green">5</span>** &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;**<span style="color:green">Sandal</span>** <br>&nbsp;6 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Shirt<br>&nbsp;7 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sneaker<br>&nbsp;8 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Bag<br>&nbsp;9 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Ankle boot
+
+*[Fashion-MNIST](https://en.wikipedia.org/wiki/Mean_squared_error) samples (by Zalando, MIT License).*
+
+### **Training and Testing**
+
+![deploy using travis](/assets/img/posts/mnist_pie.png){:class="img-fluid"}{: height="950px" width="950px"} | Most of the images will be used as training data to tune the model. However, 10,000 images will be set aside to see how the model performs on images it has never seen before. This decreases chances of overfitting the model.
+
+It is common to use what is called a **Validation** dataset. This dataset is not used for training. Instead, it it used to test the model during training. This is done after some set number of training steps, and gives us an indication of how the training is progressing. For example, if the loss is being reduced during training, but accuracy deteriorates on the validation set, that is an indication that the model is simply memorizing the training set.
+
+### **Model Layers**
+
+Because each image is 28×28 pixels, there needs to be 784 nodes (the total area) in the input layer. This is because the 2D image is converted into a one-dimensional array. This process is called **flattening**. In code, this is done with a flatting layer.
 
 
-![](/assets/img/posts/mnist_samples.png){:height="450px" width = "450px"} |  **<u>Label</u>** &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; **<u>Item</u>** <br> &nbsp;0 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; T-shirt/top<br>&nbsp;1 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Trouser<br>&nbsp;2 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Pullover<br>&nbsp;3 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Dress<br>&nbsp;4 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; Coat<br>&nbsp;5 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sandal<br>&nbsp;6&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Shirt<br>&nbsp;7&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Sneaker<br>&nbsp;8&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Bag<br>&nbsp;9&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Ankle boot
+```python
+tf.keras.layers.Flatten (input_shape=(28, 28, 1))
+```
 
-###### **<u>Artificial Intelligence</u>**<br>
-A field of computer science that aims to make computers achieve human-style intelligence. There are many approaches to reaching this goal, including machine learning and deep learning.
+Then there is a dense layer, which has 128 units in this example. [ReLU](https://www.kaggle.com/dansbecker/rectified-linear-units-relu-in-deep-learning) (Rectified Linear Unit) gives the dense layer more power. ReLU is a type of activation function that allows to solve for nonlinear problems. Last time we had a y=mx+b format for the Celsius to Fahrenheit conversion, but most problems won’t be linear. There several of these functions (ReLU, Sigmoid, tanh, ELU), but ReLU is used most commonly and serves as a good default. **f(x) = max(0, x)**
 
-- **Machine Learning** <br>
-A set of related techniques in which computers are trained to perform a particular task rather than by explicitly programming them.
-- **Neural Network** <br>
-A construct in Machine Learning inspired by the network of neurons (nerve cells) in the biological brain. Neural networks are a fundamental part of deep learning, and will be covered in this course.
-- **Deep Learning** <br>
-A subfield of machine learning that uses multi-layered neural networks. Often, “machine learning” and “deep learning” are used interchangeably.
+![deploy using travis](/assets/img/posts/mnist_graph.png){:class="img-fluid"}{: height="350px" width="350px"}
 
-The three main branches of machine learning are:
+```python
+tf.keras.layers.Dense(128, activation=tf.nn.relu)
+```
+The output layer contains 10 units,  because the fashion MNIST datasets contains 10 labels for clothing. Each unit specifies the probability that the inputted image of clothing belongs to that label. For example if you input an image of a t-shirt, it may be outputted as .88 t-shit (label=0), .04 trouser (label = 1),  .1 pullover (label = 2), etc. This is how confident the model is that the image belongs to each clothing group. The goal is to get the percentage for t-shit as high as possible after training the model so that the image is classified correctly. The actual percentages should be 1 t-shirt (label = 0), 0 trouser (label=1),  0  pullover (label = 2), etc. <br><br>
+Here is an example of what might be outputted with an image of a shirt:
 
-- **Supervised Learning** <br>
-Using a labeled training dataset to train the computer to make predictions.
+![deploy using travis](/assets/img/posts/mnist_shirt.png){:class="img-fluid"}{: height="650px" width="650px"}
+*The model is 85% confident this image is of a shirt. Notice the percentages sum to 1. This is a probability distribution.*
 
-![deploy using travis](/assets/img/posts/supervised.png){:class="img-fluid"}{: height="350px" width="350px"}
+```python
+tf.keras.layers.Dense(10, activation=tf.nn.softmax)
+```
 
-- **Unsupervised Learning** <br>
-The information used to train is neither classified nor labeled.
+**Softmax**: A function that provides probabilities for each possible output class.
 
-![deploy using travis](/assets/img/posts/unsupervised.png){:class="img-fluid"}{: height="350px" width="350px"}
+![deploy using travis](/assets/img/posts/mnist_neural.png){:class="img-fluid"}{: 
+height="650px" width="650px"}
+*A visual of each layer of the neural network.*
 
-- **Reinforcement Learning** <br>
-An interactive learning method that optimizes a reward. 
+### **Classifying Images of Clothing**
 
-![deploy using travis](/assets/img/posts/reinforcement.png){:class="img-fluid"}{: height="350px" width="350px"}
+#### **1. Install and import dependencies**
+MNIST fashion dataset is in tensorflow_datasets so we can install these.
 
-![deploy using travis](/assets/img/posts/ml_chart.png){:class="img-fluid"}
-> <div style="text-align: center"> A good visual of the machine learning branches. </div>
+```python
+!pip install -U tensorflow_datasets
+```
 
-### Training a First Model in Python
-
-We will use supervised machine learning to find the pattern between Celsius and Fahrenheit values.  The formula is 𝑓 = 𝑐 × 1.8 + 32.  We will give TensorFlow some sample Celsius values (0, 8, 15, 22, 38) and their corresponding Fahrenheit values (32, 46, 59, 72, 100). Then, we will train a model that figures out the above formula through the training process.
-
-![deploy using travis](/assets/img/posts/model.png){:class="img-fluid"}
-
-#### **1. Import dependencies**
-
-The `__future__`  statement is intended to ease migration to future versions of Python that introduce incompatible changes to the language. TensorFlow is imported as `tf`. It will only display errors. Numpy is imported as `np`. Numpy helps us to represent our data as highly performant lists.
+Now import tensorflow and some libraries needed.
 
 ```python
 from __future__ import absolute_import, division, print_function
+# Import TensorFlow and TensorFlow Datasets
 import tensorflow as tf
-tf.logging.set_verbosity(tf.logging.ERROR)
+import tensorflow_datasets as tfds
+tf.logging.set_verbosity(tf.logging.ERROR) 
  
+# Helper libraries
+import math
 import numpy as np
-```
-
-#### **2. Set up training data**
-
-The goal of the model is to provide degrees in Fahrenheit when given degrees in Celsius.  So for supervised learning, we give a set of inputs (`celsius_q`) and a set of outputs (`fahrenheit_a`) so that the computer can find an algorithm.
-
-```python
-celsius_q = np.array([-40, -10, 0, 8, 15, 22, 38],dtype=float)
-fahrenheit_a = np.array([-40, 14, 32, 46, 59, 72, 100],dtype=float) 
+import matplotlib.pyplot as plt 
  
-for i,c in enumerate(celsius_q):
-    print("{} degrees Celsius = {} degrees Fahrenheit".format(c,
-    fahrenheit_a[i]))
+# Improve progress bar display
+import tqdm
+import tqdm.auto tqdm.tqdm = tqdm.auto.tqdm 
+ 
+print(tf.__version__)
+ 
+# This will go away in the future.
+# If this gives an error, you might be running TensorFlow 2
+# or above
+# If so, the just comment out this line and run this
+# cell again
+tf.enable_eager_execution()
 ```
-![deploy using travis](/assets/img/posts/results_1.png){:class="img-fluid"}{: height="400px" width="400px"}
-
-- Some Machine Learning terminology: <br>
-<u>Feature </u>— The input(s) to our model. In this case, the degrees in Celsius.  <br>
-<u>Labels</u> — The output our model predicts. In this case, the degrees in Fahrenheit.  <br>
-<u>Example</u> — A pair of inputs/outputs used during training. In our case a pair of values from `celsius_q` and `fahrenheit_a` at a specific index, such as (22,72).
-
-#### **3. Create the model**
-
-We will use a Dense network model with only one layer.
-
-- ##### BUILD A LAYER
-
-We’ll call the layer l0 and create it using tf.keras.layers.Dense with the following configuration:
-
- - `input_shape = [1]`— This specifies that the input to this layer is a single value. That is, **the shape is a one-dimensional array with one member**. Since this is the first (and only) layer, that input shape is the input shape of the entire model. The single value is a floating point number, representing degrees Celsius (the feature).
-- `units = 1` — This specifies the number of neurons in the layer. The number of neurons defines how many internal variables the layer has to try to learn how to solve the problem. Since this is the final layer, it is also the size of the model’s output — a single float value representing degrees Fahrenheit (the labels). (In a multi-layered network, the size and shape of the layer would need to match the input_shape of the next layer.)
+The MNIST data can be accessed via the dataset API. It then should be split into the training and testing data. Class names aren’t included so you can create a vector of them.
 
 ```python
-l0 = tf.keras.layers.Dense(units=1, input_shape=[1])  
+dataset, metadata = tfds.load('fashion_mnist',
+as_supervised=True, with_info=True)
+ 
+train_dataset, test_dataset = dataset['train'], dataset['test']
+ 
+class_names = ['T-shirt/top','Trouser','Pullover','Dress','Coat',
+               'Sandal','Shirt','Sneaker','Bag','Ankle boot']
 ```
 
-Is this enough? As you will see later when checking the weights, the equation for weights and biases lines up with the actual Celsius to Fahrenheit equation.<br>
-![deploy using travis](/assets/img/posts/weights1.png){:class="img-fluid"}{: height="400px" width="400px"}
-<br><br>
-Note that as the number of layers increase, so does the complexity of the equation. Below is a neural network with three layers: <br>
-![deploy using travis](/assets/img/posts/weights2.png){:class="img-fluid"}{: height="600px" width="600px"}
-
-hidden = keras.layers.Dense(units = 2, input_shape = [3])
-output = keras.layers.Dense(units = 1)
-model = tf.keras.Sequential([hidden, output])
-
-- ##### ASSEMBLE LAYERS INTO THE MODEL
-
-Once the layers are defined, they need to be assembled into a model.  A Sequential model takes a list of layers as an argument, specifying the calculation order from the input to the output.
+#### ***Explore the Data**
 
 ```python
-model = tf.keras.Sequential([l0])
+num_train_examples = metadata.splits['train'].num_examples
+num_test_examples = metadata.splits['test'].num_examples
+print("Number of training examples: {}".format(num_train_examples))
+print("Number of test examples: {}".format(num_test_examples))
 ```
-#### **4. Compile the model, with loss and optimizer functions**
+![deploy using travis](/assets/img/posts/mnist_explore.png){:class="img-fluid"}{: height="250px" width="250px"}
 
-Before training, the model has to be compiled. When compiled for training, the model is given a loss function and an optimizer function.
-
-- <u>Loss function</u> — A way of measuring how far off predictions are from the desired outcome. The measured difference is called the “loss”.
-- <u>Optimizer function</u>  — A way of adjusting internal values in order to reduce the loss.
+#### **2. Preprocess the data**
+The value of each pixel in the image data is an integer in the range [0,255]. This is because the 28×28 images have pixel values ranging from 0 to 255. For the model to work properly, these values need to be normalized to the range [0,1]. So here we create a normalization function, and then apply it to each image in the test and train datasets.
 
 ```python
-model.compile(loss = 'mean_squared_error',
-optimizer = tf.keras.optimizers.Adam(0.1))
+def normalize(images, labels):
+  images = tf.cast(images, tf.float32)
+  images /= 255
+  return images, labels 
+ 
+# The map function applies the normalize function to each
+# element in the train and test datasets 
+ 
+train_dataset = train_dataset.map(normalize)
+test_dataset = test_dataset.map(normalize)
 ```
-These calculate the loss at each point, and then adjust it. This is why it is called training.
 
-During training, the optimizer function is used to calculate adjustments to the model’s internal variables. The goal is to adjust the internal variables until the model (which is really a math function) mirrors the actual equation for converting Celsius to Fahrenheit.
+#### ***Explore the processed data**
 
-The loss function ([mean squared error](https://en.wikipedia.org/wiki/Mean_squared_error)) and the optimizer ([Adam](https://machinelearningmastery.com/adam-optimization-algorithm-for-deep-learning/)) used here are standard for simple models like this one, but many others are available.
+Let’s take a look at an image! Notice the color scale is from 0 to 1 (instead of 0 to 255).
+```python
+# Take a single image, and remove the color dimension by reshaping
+for image, label in test_dataset.take(1):
+  break
+image = image.numpy().reshape((28,28)) 
+ 
+# Plot the image - voila a piece of fashion clothing
+plt.figure()
+plt.imshow(image, cmap=plt.cm.binary)
+plt.colorbar()
+plt.grid(False)
+plt.show()
+```
+![deploy using travis](/assets/img/posts/mnist_shirt2.png){:class="img-fluid"}{: height="450px" width="450px"}
 
-One part of the Optimizer you may need to think about when building your own models is the learning rate (0.1 in the code above). This is the step size taken when adjusting values in the model. If the value is too small, it will take too many iterations to train the model. Too large, and accuracy goes down. Finding a good value often involves some trial and error, but the range is usually within 0.001 (default), and 0.1
-
-#### **5. Train the model**
-
-During training, the model takes in Celsius values, performs a calculation using the current internal variables (called “weights”) and outputs values which are meant to be the Fahrenheit equivalent. Since the weights are initially set randomly, the output will not be close to the correct value. The difference between the actual output and the desired output is calculated using the loss function, and the optimizer function directs how the weights should be adjusted.
-
-This cycle of <u>calculate</u>, <u>compare</u>, <u>adjust</u> is controlled by the **fit method**. The first argument is the inputs, the second argument is the desired outputs. The epochs argument specifies how many times this cycle should be run, and the verbose argument controls how much output the method produces. The cycle here is run 500 times and there are 7 Celsius/Fahrenheit pairs, so there are 3,500 examples total.
+Display the first 25 images from the training set and display the class name below each image. Verify that the data is in the correct format and we’re ready to build and train the network.
 
 ```python
-history = model.fit(celsius_q, fahrenheit_a, epochs = 500,
-                    verbose = False)
-print("Finished training the model")
+plt.figure(figsize=(10,10))
+i = 0
+for (image, label) in test_dataset.take(25):
+  image = image.numpy().reshape((28,28))
+  plt.subplot(5,5,i+1)
+  plt.xticks([])
+  plt.yticks([])
+  plt.grid(False)
+  plt.imshow(image, cmap=plt.cm.binary)
+  plt.xlabel(class_names[label])
+  i += 1
+plt.show()
 ```
-![deploy using travis](/assets/img/posts/model2.png){:class="img-fluid"}{: height="250px" width="250px"}
+![deploy using travis](/assets/img/posts/mnist_shirt3.png){:class="img-fluid"}{: height="450px" width="450px"}
 
-#### **6. Displaying training statistics**
+#### **3. Build the model**
 
-The `fit` method returns a history object. We can use this object to plot how the loss of our model goes down after each training epoch. A high loss means that the Fahrenheit degrees the model predicts is far from the corresponding value in `fahrenheit_a`.
+To build the neural network we need to first configure the layers of the model then compile the model.
 
-We’ll use [Matplotlib](https://matplotlib.org/) to visualize this (you could use another tool). As you can see, our model improves very quickly at first, and then has a steady, slow improvement until it is very near “perfect” towards the end.
+#### *** Setup the layers**
+
+The basic building block of a neural network is the *layer*. Earlier we discussed the input, dense, and output layer. Much of deep learning consists of chaining together simple layers. Most layers, like `tf.keras.layers.Dense`, have internal parameters which are adjusted (“learned”) during training.
 
 ```python
-import matplotlib.pyplot as plt
-plt.xlabel('Epoch Number')
-plt.ylabel("Loss Magnitude")
-plt.plot(history.history['loss'])
+model = tf.keras.Sequential([
+    tf.keras.layers.Flatten(input_shape=(28, 28, 1)),
+    tf.keras.layers.Dense(128, activation=tf.nn.relu),
+    tf.keras.layers.Dense(10,  activation=tf.nn.softmax)
+])
 ```
-![deploy using travis](/assets/img/posts/graph1.png){:class="img-fluid"}{: height="400px" width="400px"}
 
-#### **7. Use the model to predict values**
+To recap, this neural network has three following layers:
 
-Now you have a model that has been trained to learn the relationship between `celsius_q` and `fahrenheit_a`. You can use the predict method to have it calculate the Fahrenheit degrees for a previously unknown Celsius degrees. Here let’s try 100C to F.
+- **input** `tf.keras.layers.Flatten` — This layer transforms the images from a 2d-array of 28 × 28 pixels), to a 1d-array of 784 pixels (28*28). Think of this layer as unstacking rows of pixels in the image and lining them up. This layer has no parameters to learn, as it only reformats the data.
+- **hidden** `tf.keras.layers.Dense`— A densely connected layer of 128 neurons. Each neuron (or node) takes input from all 784 nodes in the previous layer, weighting that input according to hidden parameters which will be learned during training, and outputs a single value to the next layer.
+- **output** `tf.keras.layers.Dense` — A 10-node *softmax* layer, with each node representing a class of clothing. As in the previous layer, each node takes input from the 128 nodes in the layer before it. Each node weights the input according to learned parameters, and then outputs a value in the range [0, 1], representing the probability that the image belongs to that class. The sum of all 10 node values is 1.
+
+#### *** Compile the model**
+
+Before the model is ready for training, we add a few settings to the compile step:
+
+- *Loss function* — An algorithm for measuring how far the model’s outputs are from the desired output. We want to minimize the losses. The conventional way is to have the target outputs converted to the one-hot encoded array to match with the output shape, but with `sparse_categorical_crossentropy`, we can keep the integers as targets.
+- *Optimizer* —An algorithm for adjusting the inner parameters of the model in order to minimize loss.
+
+![](/assets/img/posts/mnist_adam.png){:class="img-fluid"}{: height="650px" width="650px"} |Adam is an optimization algorithm that can used instead of the classical stochastic gradient descent procedure to update network weights iterative based in training data.
+
+*Adam: A Method for Stochastic Optimization, 2015.*
+
+- *Metrics* —Used to monitor the training and testing steps. The following example uses accuracy, the fraction of the images that are correctly classified.
 
 ```python
-print(model.predict([100.0]))
+optimizer = tf.train.AdamOptimizer(learning_rate=1e-4,
+beta1=0.99, epsilon=0.1)
+model.compile(optimizer, loss='sparse_categorical_crossentropy',
+metrics=['accuracy'])
 ```
-![deploy using travis](/assets/img/posts/result1.png){:class="img-fluid"}{: height="100px" width="100px"}
 
-The correct answer is 100 × 1.8 + 32 = 212. 
+#### **4. Train the model**
 
-So far:
+First, we define the iteration behavior for the train dataset:
 
-- We created a model with a Dense layer
-- We trained it with **3,500** examples (7 pairs, over 500 epochs).
-- Our model tuned the variables (weights) in the Dense layer until it was able to return the correct Fahrenheit value for any Celsius value. (Remember, 100 Celsius was not part of our training data.)
+1. Repeat forever by specifying `dataset.repeat()` (the epochs parameter described below limits how long we perform training).
+2. The `dataset.shuffle(60000)` randomizes the order so our model cannot learn anything from the order of the examples.
+3. And `dataset.batch(32)` tells `model.fit` to use batches of 32 images and labels when updating the model variables.
 
-#### **8. Looking at the layer weights**
+Training is performed by calling the `model.fit` method:
 
-One can look at the internal variables of the Dense layer using .get_weights()
+1. Feed the training data to the model using `train_dataset`.
+2. The model learns to associate images and labels.
+3. The `epochs=5` parameter limits training to 5 full iterations of the training dataset, so a total of 5 * 60,000 = 300,000 examples.
 
 ```python
-print("These are the layer variables: {}".format(l0.get_weights()))
+BATCH_SIZE = 32
+train_dataset = train_dataset.repeat().
+  shuffle(num_train_examples).batch(BATCH_SIZE)
+test_dataset = test_dataset.batch(BATCH_SIZE)
+ 
+model.fit(train_dataset, epochs=5,
+  steps_per_epoch=math.ceil(num_train_examples/BATCH_SIZE))
 ```
-![deploy using travis](/assets/img/posts/result2.png){:class="img-fluid"}{: height="1000px" width="1000px"}
+![deploy using travis](/assets/img/posts/mnist_train.png){:class="img-fluid"}{: height="650px" width="650px"}
 
-Recall the real formula is:  𝑓 = 𝑐 × 1.8 + 32. So 1.8201642 is close to 1.8 and 29.321808 is pretty close to 32. Because we had a single input and output, the equation is 𝑦 = 𝑚𝑥 + 𝑏. 
+As the model trains, the loss and accuracy metrics are displayed. This model reaches an accuracy of about 89% on the training data.
 
-#### **9. Experiment**
-
-Just for fun, what if we created more Dense layers with different units, which therefore also has more variables?
+#### **5. Evaluate the model**
+The model classifies training images with 89% accuracy, but how does it perform on images it has never seen before? We want to make sure the model didn’t just memorize the training images.
 
 ```python
-l0 = tf.keras.layers.Dense(units=4, input_shape=[1])
-l1 = tf.keras.layers.Dense(units=4)
-l2 = tf.keras.layers.Dense(units=1)
-model = tf.keras.Sequential([l0, l1, l2])
-model.compile(loss='mean_squared_error',
-             optimizer=tf.keras.optimizers.Adam(0.1))
-model.fit(celsius_q, fahrenheit_a, epochs=500, verbose=False)
-print("Finished training the model")
-print(model.predict([100.0]))
-print("Model predicts that 100 degrees Celsius is:
-      {} degrees Fahrenheit".format(model.predict([100.0])))
-print("These are the l0 variables: {}".format(l0.get_weights()))
-print("These are the l1 variables: {}".format(l1.get_weights()))
-print("These are the l2 variables: {}".format(l2.get_weights()))
+test_loss, test_accuracy = model.evaluate(test_dataset,
+  steps=math.ceil(num_test_examples/32)) 
+ 
+print('Accuracy on test dataset:', test_accuracy)
 ```
-![deploy using travis](/assets/img/posts/result3.png){:class="img-fluid"}{: height="650px" width="650px"}
+![deploy using travis](/assets/img/posts/mnist_accuracy.png){:class="img-fluid"}{: height="650px" width="650px"}
 
-As you can see, this model is also able to predict the corresponding Fahrenheit value really well. But when you look at the variables (weights) in the `l0`, `l1`, and `l2` layers, they are nothing even close to ~1.8 and ~32. The added complexity hides the “simple” form of the conversion equation.
+It is less accurate with the test data,  but that is expected since the model was trained on the `train_dataset`.
 
-#### **Review and Terminology**
-![deploy using travis](/assets/img/posts/figure1.png){:class="img-fluid"}
-> <div style="text-align: center"> Figure 1. Forward Pass </div>
 
-The training process starts with a forward pass, where the input data is fed to the neural network. Then the model applies its internal math on the input and internal variables to predict an answer. In our example, the input was the degrees in Celsius, and the model predicted the corresponding degrees in Fahrenheit.
+#### **6. Make predictions and explore**
 
-Once a value is predicted, the difference between that predicted value and the correct value is calculated. This difference is called the loss, and it’s a measure of how well the model performed the mapping task. The value of the loss is calculated using a loss function, which we specified with the loss parameter when calling `model.compile()`.
+With the model trained, we can use it to make predictions about some images.
 
-After the loss is calculated, the internal variables (weights and biases) of all the layers of the neural network are adjusted, so as to minimize this loss — that is, to make the output value closer to the correct value.
+```python
+for test_images, test_labels in test_dataset.take(1):
+  test_images = test_images.numpy()
+  test_labels = test_labels.numpy()
+  predictions = model.predict(test_images)
+ 
+predictions.shape
+```
+![deploy using travis](/assets/img/posts/mnist_prediction.png){:class="img-fluid"}{: height="100px" width="100px"}
 
-![deploy using travis](/assets/img/posts/figure2.png){:class="img-fluid"}
-> <div style="text-align: center"> Figure 2. Back Propogation </div>
+32 images with 10 label (clothing group) predictions.
 
-This optimization process is called Gradient Descent. The specific algorithm used to calculate the new value of each internal variable is specified by the optimizer parameter when calling `model.compile(...)`. In this example we used the `Adam` optimizer.
+```python
+predictions[0]
+```
+![deploy using travis](/assets/img/posts/mnist_prediction2.png){:class="img-fluid"}{: height="570px" width="570px"}
 
-#### **Terms:**
-- **Feature**: The input(s) to our model
-- **Examples**: An input/output pair used for training
-- **Labels**: The output of the model
-- **Layer**: A collection of nodes connected together within a neural network.
-- **Model**: The representation of your neural network
-- **Dense and Fully Connected (FC)**: Each node in one layer is connected to each node in the previous layer.
-- **Weights and biases**: The internal variables of model
-- **Loss**: The discrepancy between the desired output and the actual output
-- **MSE**: Mean squared error, a type of loss function that counts a small number of large discrepancies as worse than a large number of small ones.
-- **Gradient Descent**: An algorithm the internal variables a bit at a time to gradually reduce the loss function.
-- **Optimizer**: A specific implementation of the gradient descent algorithm. (There are many algorithms for this. In this course we will only use the “Adam” Optimizer, which stands for *ADAptive with Momentum*. It is considered the best-practice optimizer.)
-- **Learning rate**: The “step size” for loss improvement during gradient descent.
-- **Batch**: The set of examples used during training of the neural network
-- **Epoch**: A full pass over the entire training dataset
-- **Forward pass**: The computation of output values from input
-- **Backward pass (back propagation)**: The calculation of internal variable adjustments according to the optimizer algorithm, starting from the output layer and working back through each layer to the input.
+Which is the highest? Check the test label to see if this is correct.
+
+```python
+np.argmax(predictions[0])
+ 
+test_labels[0]
+```
+Both of the outputs are 6.
+
+```python
+def plot_image(i, predictions_array, true_labels, images):
+  predictions_array, true_label, img = predictions_array[i],
+  true_labels[i], images[i]
+  plt.grid(False)
+  plt.xticks([])
+  plt.yticks([]) 
+ 
+  plt.imshow(img[...,0], cmap=plt.cm.binary) 
+ 
+  predicted_label = np.argmax(predictions_array)
+  if predicted_label == true_label: color = 'blue'
+  else: color = 'red'
+  plt.xlabel("{} {:2.0f}% ({})".format(class_names[predicted_label],
+                                100*np.max(predictions_array),
+                                class_names[true_label]),
+                                color=color)
+ 
+def plot_value_array(i, predictions_array, true_label):
+  predictions_array, true_label = predictions_array[i],true_label[i]
+  plt.grid(False)
+  plt.xticks([])
+  plt.yticks([])
+  thisplot = plt.bar(range(10), predictions_array, color="#777777")
+  plt.ylim([0, 1])
+  predicted_label = np.argmax(predictions_array)
+  thisplot[predicted_label].set_color('red')
+  thisplot[true_label].set_color('blue')
+```
+Let’s look at the 0th image, predictions, and prediction array. Correct prediction labels are blue and incorrect prediction labels are red.
+
+```python
+i = 0
+plt.figure(figsize=(6,3))
+plt.subplot(1,2,1)
+plot_image(i, predictions, test_labels, test_images)
+plt.subplot(1,2,2)
+plot_value_array(i, predictions,  test_labels)
+```
+![deploy using travis](/assets/img/posts/mnist_shirttest.png){:class="img-fluid"}{: height="470px" width="470px"}
+
+```python
+i = 12
+plt.figure(figsize=(6,3))
+plt.subplot(1,2,1)
+plot_image(i, predictions, test_labels, test_images)
+plt.subplot(1,2,2)
+plot_value_array(i, predictions,  test_labels)
+```
+![deploy using travis](/assets/img/posts/mnist_shirttest2.png){:class="img-fluid"}{: height="470px" width="470px"}
+
+Let’s plot several images with their predictions. Note that even when the model is very confident, it is not necessarily correct.
+
+```python
+# Plot the first X test images, their predicted label,
+# and the true label
+# Color correct predictions in blue, incorrect predictions in red
+num_rows = 5
+num_cols = 3
+num_images = num_rows*num_cols
+plt.figure(figsize=(2*2*num_cols, 2*num_rows))
+for i in range(num_images):
+  plt.subplot(num_rows, 2*num_cols, 2*i+1)
+  plot_image(i, predictions, test_labels, test_images)
+  plt.subplot(num_rows, 2*num_cols, 2*i+2)
+  plot_value_array(i, predictions, test_labels)
+```
+
+![deploy using travis](/assets/img/posts/mnist_predictiontest.png){:class="img-fluid"}{: height="570px" width="570px"}
+
+Finally, use the trained model to make a prediction about a single image.
+
+```python
+# Grab an image from the test dataset
+img = test_images[0]
+print(img.shape)
+```
+![deploy using travis](/assets/img/posts/mnist_predictiontest2.png){:class="img-fluid"}{: height="120px" width="120px"}
+
+`tf.keras` models are optimized to make predictions on a **batch**, or collection, of examples at once. So even though we’re using a single image, we need to add it to a list:
+
+```python
+# Add the image to a batch where it's the only member.
+img = np.array([img])
+print(img.shape)
+```
+
+![deploy using travis](/assets/img/posts/mnist_predictiontest3.png){:class="img-fluid"}{: height="170px" width="170px"}
+
+```python
+predictions_single = model.predict(img)
+print(predictions_single)
+```
+![deploy using travis](/assets/img/posts/mnist_predictiontest4.png){:class="img-fluid"}{: height="570px" width="570px"}
+
+```python
+plot_value_array(0, predictions_single, test_labels)
+_ = plt.xticks(range(10), class_names, rotation=45)
+ 
+np.argmax(predictions_single[0])
+```
+![deploy using travis](/assets/img/posts/mnist_pred.png){:class="img-fluid"}{: height="470px" width="470px"}
+
+The model predicted 6, a shirt.
+
+#### **7. Exercises**
+
+- Set training epochs set to 1
+With 1 epoch instead of 5 the accuracy lowers from 89% to 82.6%. This is because the epochs parameter limits how long we perform training.
+
+- Number of neurons in the Dense layer following the Flatten one. For example, go really low (e.g. 10) in ranges up to 512 and see how accuracy changes
+
+With 10 neurons in the Dense layer, the accuracy decreases from 89% to 85.5%.
+
+![deploy using travis](/assets/img/posts/mnist_exercise1.png){:class="img-fluid"}{: height="670px" width="670px"}
+
+With 512 neurons in the Dense layer, the accuracy increased from 89.24% to 89.78%
+
+![deploy using travis](/assets/img/posts/mnist_exercise2.png){:class="img-fluid"}{: height="670px" width="670px"}
+
+
+- Add additional Dense layers between the Flatten and the final Dense(10, activation=tf.nn.softmax), experiment with different units in these layers. The original test accuracy was 87.4%. Adding an additional Dense layer with 158 nodes increased the test data accuracy to 88.1%. Adding a Dense layer with 10 nodes slightly decreased the test accuracy to 87.3%. Adding a Dense layer with 512 nodes increased the training accuracy to 89.7% but slightly decreased the test accuracy to 87.3%. This could be a sign of overfitting.
+
+
+
+
+
+
+
+
