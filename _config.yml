@@ -13,6 +13,8 @@ urls:
       url: /about
     - text: Blog
       url: /blog
+    - text: Programming
+      url: /programming
     - text: Gallery
       url: /gallery
     - text: Shop
