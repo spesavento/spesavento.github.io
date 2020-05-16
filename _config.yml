@@ -36,9 +36,9 @@ author_location: Los Angeles
 # author_website_url: "https://www.linkedin.com/in/sara-pesavento-95941811a/"
 
 author_education_details:
-              - college_logo: uci.png
-                college_name: University of California, Irvine <br>2020-present
-                # college_url: https://www.ics.uci.edu
+              - college_logo: USC.png
+                college_name: University of Southern California <br>2020-present
+                # college_url: www.usc.com
                 college_degree: M.S. Computer Science
                 description: GPA NA/4.00
                 visibility: true
