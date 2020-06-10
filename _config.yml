@@ -7,8 +7,8 @@ url: "https://spesavento.github.io/" # the base hostname & protocol for your sit
 # baseurl: "/tree/master/assets/img" # the subpath of your site, e.g. /blog
 
 urls:
-    # - text: Sara Pesavento
-      # url: /about 
+    - text:
+      url: /about 
     - text: About Me
       url: /about
     - text: Blog
