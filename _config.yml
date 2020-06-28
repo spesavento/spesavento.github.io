@@ -30,7 +30,7 @@ urls:
 
 author_logo: profile.png
 author: Sara Pesavento
-author_bio: Programming knowledge includes R, Python, SQL, Tableau, SAS and other data analysis tools.
+author_bio: Data Scientist with B.S. Statistics (3.8 GPA, Cum Laude) from UCLA. Programming knowledge includes R, Python, SQL, Tableau, SAS and other data analysis tools.
 author_email: "sarapesavento@gmail.com"
 author_location: Los Angeles
 # author_website_url: "https://www.linkedin.com/in/sara-pesavento-95941811a/"
@@ -50,7 +50,7 @@ author_education_details:
                 visibility: true
 
 author_work_experiences:
-            - company_name: Warner Bros. Entertainment<br>Mar 2019 - Present • <i>1 yr 1 mo</i>
+            - company_name: Warner Bros. Entertainment<br>Mar 2019 - Present • <i>1 yr 6 mo</i>
               company_logo: wb.png
               # company_url: https://google.com
               designation: Sr. Analyst
