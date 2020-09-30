@@ -1,6 +1,6 @@
 ### https://spesavento.github.io/#/
 
-Just for fun - playing around with a github blog. <br>
+Just for fun - playing around with a github blog! <p>
 30 days of code posts come from my: <br>
 https://www.hackerrank.com/spesaven
 
