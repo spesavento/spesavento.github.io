@@ -1,7 +1,7 @@
-Just for fun - playing around with a github blog: <p>
 ### https://spesavento.github.io/#/
 
-30 days of code posts come from my: <p>
+Just for fun - playing around with a github blog. <br>
+30 days of code posts come from my: <br>
 https://www.hackerrank.com/spesaven
 
 To do:
