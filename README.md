@@ -5,6 +5,8 @@ https://spesavento.github.io/#/
 https://www.hackerrank.com/spesaven
 
 To do:
-Finish blog posts for challenge
-Update work experience
-Drop other tabs
+- Update projects to my own
+- Update Coding Activity
+- Finish blog posts for challenge
+- Update work experience
+- Drop other tabs
